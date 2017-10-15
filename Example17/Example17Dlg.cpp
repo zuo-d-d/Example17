@@ -62,6 +62,8 @@ BEGIN_MESSAGE_MAP(CExample17Dlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_OPEN_BUTTON, &CExample17Dlg::OnBnClickedOpenButton)
+	ON_BN_CLICKED(IDC_SAVE_BUTTON, &CExample17Dlg::OnBnClickedSaveButton)
 END_MESSAGE_MAP()
 
 
@@ -150,3 +152,39 @@ HCURSOR CExample17Dlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CExample17Dlg::OnBnClickedOpenButton()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//设置过滤器
+	TCHAR szFilter[] = _T("文本文件(*.txt)|*.txt|所有文件(*.*)|*.*||");
+	//构造打开文件对话框
+	CFileDialog fileDlg(TRUE, _T("txt"), NULL, 0, szFilter, this);
+	CString strFilePath;
+
+	//显示打开文件对话框
+	if (IDOK == fileDlg.DoModal())
+	{
+		strFilePath = fileDlg.GetPathName();
+		SetDlgItemText(IDC__OPEN_EDIT, strFilePath);
+	}
+}
+
+
+void CExample17Dlg::OnBnClickedSaveButton()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//设置过滤器
+	TCHAR szFilter[] = _T("文本文件(*.txt)|*.txt|word 文件(*.doc)|*.doc|所有文件(*.*)|*.*||");
+	//构造打开文件对话框
+	CFileDialog fileDlg(FALSE, _T("doc"), _T("my"), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+	CString strFilePath;
+
+	//显示打开文件对话框
+	if (IDOK == fileDlg.DoModal())
+	{
+		strFilePath = fileDlg.GetPathName();
+		SetDlgItemText(IDC_SAVE_EDIT, strFilePath);
+	}
+}
